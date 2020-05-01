@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <meta name="viewport" content="width-device-width, initial-scale=1, maximun-scale=1, user-scalable=no, minimal-ui">
+        <meta name="description" content="Generador RUT Chileno">
+        <meta name="keywords" content="Generador,RUT,Chileno">
+        <meta name="mobile-web-app-capable" content="yes">
+        <link rel="shortcut icon" href="./assets/images/favicon.ico">
+        <title>Generador RUT Chileno</title>
+    </head>
+    <body>
+
+        <v-app id="app">            
+
+            <v-navigation-drawer app clipped v-model="drawer" color="blue darken-4" floating dark>
+                <v-list-item>
+                    <v-list-item-content>
+                        <v-list-item-title class="title">
+                            Generador de RUTs
+                        </v-list-item-title>
+                        <v-list-item-subtitle>
+                            Demo de Vue / Vuex / Vuetify
+                        </v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-divider></v-divider>
+                <v-list dense nav >
+                    <v-list-item v-for="item in drawerItems" :key="item.title" link :href="item.href" target="_blank">
+                        <v-list-item-icon>
+                            <v-icon>{{ item.icon }}</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>{{ item.title }}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list>
+            </v-navigation-drawer>
+
+            <v-app-bar app clipped-left dense color="blue darken-4">
+                <v-app-bar-nav-icon color="white" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+                <v-toolbar-title class="white--text">Generador de RUT Chilenos</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn icon color="white" @click="showMessage('Muchas gracias!')">
+                    <v-icon>mdi-heart</v-icon>
+                </v-btn>
+            </v-app-bar>
+
+            <v-content class="bg-color">
+                <v-container fluid class="fill-height pa-0">
+
+                    <v-card class="mx-auto mb-4" width="500">
+                        <v-card-title color="blue">
+                            <span class="headline">Lista de RUTs</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-container fluid class="pa-0">
+ 
+                                <template>
+                                    <v-data-table dense
+                                            :headers="tableHeaders" :items="getTableItems"
+                                            item-key="name" class="elevation-1"> <!-- hide-default-footer -->
+
+                                            <template v-slot:item.actions="{ item }">
+                                                <v-icon class="mr-2" @click="copyItem(item)" >
+                                                    mdi-content-copy
+                                                </v-icon>       
+                                            </template>
+                                            
+                                            <template v-slot:no-data>
+                                                No hay data disponible.
+                                            </template>
+
+                                    </v-data-table>
+                                </template>
+
+                            </v-container>
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn color="primary" @click="generate()">GENERAR</v-btn>
+                        </v-card-actions>
+                    </v-card>
+
+                </v-container>
+            </v-content>
+
+            <v-snackbar v-model="snackbar" :timeout="snackbarTimeout" :bottom="'bottom'" :right="'right'">
+                {{ snackbarText }}
+                <v-btn color="blue" text @click="snackbar = false">Cerrar</v-btn>
+            </v-snackbar>
+
+            <v-footer app color="blue darken-4">
+              <span class="white--text">Demo de Vue 2.x, Vuex y Vuetify. Configuración mínima usando CDN. 2020</span>
+            </v-footer>
+
+        </v-app>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+        <!-- Vuex -->
+        <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/2.1.1/vuex.min.js"></script>
+        <!-- Axios -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.2/axios.js"></script> -->
+        <!-- App -->
+        <script src="utils.js"></script>
+        <script src="store.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
