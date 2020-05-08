@@ -63,15 +63,7 @@ function getRandomInt(min, max) {
 
 // Generate a single valid RUT
 function generateRUT(min, max) {
-  const num = getRandomInt(min, max);
-  const chars = "0123456789K".split('');
-  const rutVal = new RutValidator();
-  for (let c in chars) {
-      const rut = `${num}-${c}`;
-      // console.log(rut);
-      if (rutVal.validate(rut)) {
-          return rut;
-      }
-  }
-  return null;
+  const num = getRandomInt(min, max);  
+  const dv = (new RutValidator()).dv(num);
+  return `${num}-${dv}`;
 }
